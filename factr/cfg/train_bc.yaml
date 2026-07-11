@@ -45,5 +45,5 @@ wandb:
   name: ${exp_name}
   project: factr
   group: bc
-  debug: True
+  debug: False
   entity: WANDB_ENTITY

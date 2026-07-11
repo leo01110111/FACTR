@@ -21,7 +21,7 @@ _Carnegie Mellon University_
 - [License and Acknowledgements](#license-and-acknowledgements)
 - [Citation](#citation)
   
-## Environment
+## Environmenthttps://github.com/RaindragonD/FACTR.git
 ```bash
 conda env create -f env.yaml
 conda activate factr

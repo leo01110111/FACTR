@@ -65,7 +65,7 @@ def train_bc(cfg: DictConfig):
         # restore/save the model as required
         if resume_model is not None:
             misc.GLOBAL_STEP = trainer.load_checkpoint(resume_model)
-        elif misc.GLOBAL_STEP == 0:
+        elif misc.GLOBAL_STEP == 0: 
             trainer.save_checkpoint(misc.GLOBAL_STEP)
         assert misc.GLOBAL_STEP >= 0, "GLOBAL_STEP not loaded correctly!"
 

@@ -1,34 +1,28 @@
-
 #!/bin/bash
 
-# cuda id
 CUDA_DEVICE_ID=0
 
-# task configuration, setup under cfg/task/
 task_config=ur_left
-
-# path to dataset buffer
 buffer_path=$(pwd)/processed_data/box-in-box/buf.pkl
 
-# curriculum parameters
-space_config=pixel # pixel, latent
-scheduler_config=linear # no, const, linear, step, exp, cos
-operator_config=blur  # blur, downsample 
+# resume: curriculum already completed at step 20000 (scale reached stop_scale=0),
+# so continue at sharp images (scheduler=no => scale 0) for the extension
+space_config=pixel
+scheduler_config=no
+operator_config=blur
 start_scale=5
 stop_scale=0
 
-# pretrained visual features
 feature_path=$(pwd)/visual_features/vit_base/SOUP_1M_DH.pth
-
-# batch size (128 OOMs the 32GB RTX 5090; 32 fits, 64 is worth trying)
 batch_size=32
-
-# wandb
 wandb_entity=leokswang-carnegie-mellon-university
 
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
+export WANDB_MODE=online
 
-CUDA_VISIBLE_DEVICES=$CUDA_DEVICE_ID python factr/train_bc_policy.py \
+CUDA_VISIBLE_DEVICES=$CUDA_DEVICE_ID /home/leo/miniconda3/envs/factr/bin/python factr/train_bc_policy.py \
+exp_name=test_resume \
+max_iterations=40000 \
 agent.features.restore_path=$feature_path \
 buffer_path=$buffer_path \
 task=$task_config \
@@ -38,4 +32,5 @@ curriculum.operator=$operator_config \
 curriculum.scheduler=$scheduler_config \
 curriculum.start_scale=$start_scale \
 curriculum.stop_scale=$stop_scale \
+wandb.debug=False \
 wandb.entity=$wandb_entity

@@ -1,12 +1,24 @@
+input_path: /home/leo/factr_teleop_ur7e/raw_data/box-in-box
+output_path: processed_data/box-in-box
 
-input_path: ../factr_teleop/raw_data/test
-output_path: processed_data/test
 
 cameras_topics:
-- /zed/front/im_left
+- /realsense/left/im    # D455 color stream (cameras/realsense node, left_cam.yaml)
+- /realsense/top/im     # D435 color stream (cameras/realsense node, top_cam.yaml) 
 obs_topics:
-- /franka/right/obs_franka_torque
-- /gripper/right/obs_gripper_pos
-action_config:
-  /factr_teleop/right/cmd_franka_pos: 7
-  /factr_teleop/right/cmd_gripper_pos: 1
+- /ur/left/obs_ur_state
+- /ur/left/obs_gripper
+- /ur/left/obs_ur_wrench
+
+action_source_topics:
+- /ur/left/obs_ur_state
+- /ur/left/obs_gripper
+action_publish_topics:
+- /factr_teleop/left/cmd_ur_pos
+- /factr_teleop/left/cmd_gripper_pos
+# Leading columns to keep per source topic (null = keep all). The gripper obs is
+# [position, current]; current is sensed feedback, not commandable, so keep only
+# position (1) and drop current.
+action_source_dims:
+- null
+- 1
