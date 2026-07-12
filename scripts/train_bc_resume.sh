@@ -20,7 +20,7 @@ wandb_entity=leokswang-carnegie-mellon-university
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 export WANDB_MODE=online
 
-CUDA_VISIBLE_DEVICES=$CUDA_DEVICE_ID /home/leo/miniconda3/envs/factr/bin/python factr/train_bc_policy.py \
+CUDA_VISIBLE_DEVICES=$CUDA_DEVICE_ID python factr/train_bc_policy.py \
 exp_name=test_resume \
 max_iterations=40000 \
 agent.features.restore_path=$feature_path \
